@@ -31,12 +31,6 @@
 
 #import "GCDWebServerPrivate.h"
 
-@interface GCDWebServerURLEncodedFormRequest () {
-@private
-  NSDictionary* _arguments;
-}
-@end
-
 @implementation GCDWebServerURLEncodedFormRequest
 
 @synthesize arguments=_arguments;

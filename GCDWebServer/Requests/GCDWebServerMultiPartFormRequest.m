@@ -42,22 +42,11 @@ typedef enum {
 } ParserState;
 
 @interface GCDWebServerMIMEStreamParser : NSObject
-- (id)initWithBoundary:(NSString*)boundary defaultControlName:(NSString*)name arguments:(NSMutableArray*)arguments files:(NSMutableArray*)files;
-- (BOOL)appendBytes:(const void*)bytes length:(NSUInteger)length;
-- (BOOL)isAtEnd;
 @end
 
 static NSData* _newlineData = nil;
 static NSData* _newlinesData = nil;
 static NSData* _dashNewlineData = nil;
-
-@interface GCDWebServerMultiPart () {
-@private
-  NSString* _controlName;
-  NSString* _contentType;
-  NSString* _mimeType;
-}
-@end
 
 @implementation GCDWebServerMultiPart
 
@@ -67,18 +56,11 @@ static NSData* _dashNewlineData = nil;
   if ((self = [super init])) {
     _controlName = [name copy];
     _contentType = [type copy];
-    _mimeType = GCDWebServerTruncateHeaderValue(_contentType);
+    _mimeType = (NSString*)GCDWebServerTruncateHeaderValue(_contentType);
   }
   return self;
 }
 
-@end
-
-@interface GCDWebServerMultiPartArgument () {
-@private
-  NSData* _data;
-  NSString* _string;
-}
 @end
 
 @implementation GCDWebServerMultiPartArgument
@@ -103,13 +85,6 @@ static NSData* _dashNewlineData = nil;
 
 @end
 
-@interface GCDWebServerMultiPartFile () {
-@private
-  NSString* _fileName;
-  NSString* _temporaryPath;
-}
-@end
-
 @implementation GCDWebServerMultiPartFile
 
 @synthesize fileName=_fileName, temporaryPath=_temporaryPath;
@@ -132,8 +107,7 @@ static NSData* _dashNewlineData = nil;
 
 @end
 
-@interface GCDWebServerMIMEStreamParser () {
-@private
+@implementation GCDWebServerMIMEStreamParser {
   NSData* _boundary;
   NSString* _defaultcontrolName;
   ParserState _state;
@@ -148,9 +122,6 @@ static NSData* _dashNewlineData = nil;
   int _tmpFile;
   GCDWebServerMIMEStreamParser* _subParser;
 }
-@end
-
-@implementation GCDWebServerMIMEStreamParser
 
 + (void)initialize {
   if (_newlineData == nil) {
@@ -167,7 +138,7 @@ static NSData* _dashNewlineData = nil;
   }
 }
 
-- (id)initWithBoundary:(NSString*)boundary defaultControlName:(NSString*)name arguments:(NSMutableArray*)arguments files:(NSMutableArray*)files {
+- (instancetype)initWithBoundary:(NSString* _Nonnull)boundary defaultControlName:(NSString* _Nullable)name arguments:(NSMutableArray* _Nonnull)arguments files:(NSMutableArray* _Nonnull)files {
   NSData* data = boundary.length ? [[NSString stringWithFormat:@"--%@", boundary] dataUsingEncoding:NSASCIIStringEncoding] : nil;
   if (data == nil) {
     GWS_DNOT_REACHED();
@@ -348,12 +319,9 @@ static NSData* _dashNewlineData = nil;
 
 @end
 
-@interface GCDWebServerMultiPartFormRequest () {
-@private
-  GCDWebServerMIMEStreamParser* _parser;
-  NSMutableArray* _arguments;
-  NSMutableArray* _files;
-}
+@interface GCDWebServerMultiPartFormRequest ()
+@property(nonatomic) NSMutableArray* arguments;
+@property(nonatomic) NSMutableArray* files;
 @end
 
 @implementation GCDWebServerMultiPartFormRequest

@@ -72,7 +72,7 @@
   NSMutableString* description = [NSMutableString stringWithString:[super description]];
   if (_data) {
     [description appendString:@"\n\n"];
-    [description appendString:GCDWebServerDescribeData(_data, self.contentType)];
+    [description appendString:GCDWebServerDescribeData(_data, (NSString*)self.contentType)];
   }
   return description;
 }

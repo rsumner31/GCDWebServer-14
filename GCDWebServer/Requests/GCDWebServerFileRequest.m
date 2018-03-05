@@ -31,9 +31,7 @@
 
 #import "GCDWebServerPrivate.h"
 
-@interface GCDWebServerFileRequest () {
-@private
-  NSString* _temporaryPath;
+@implementation GCDWebServerFileRequest {
   int _file;
 }
 @end

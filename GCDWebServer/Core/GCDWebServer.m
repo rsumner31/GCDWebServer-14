@@ -111,13 +111,6 @@ static void _ExecuteMainThreadRunLoopSources() {
 
 #endif
 
-@interface GCDWebServerHandler () {
-@private
-  GCDWebServerMatchBlock _matchBlock;
-  GCDWebServerAsyncProcessBlock _asyncProcessBlock;
-}
-@end
-
 @implementation GCDWebServerHandler
 
 @synthesize matchBlock=_matchBlock, asyncProcessBlock=_asyncProcessBlock;
@@ -139,9 +132,7 @@ static void _ExecuteMainThreadRunLoopSources() {
 
 @end
 
-@interface GCDWebServer () {
-@private
-  id<GCDWebServerDelegate> __unsafe_unretained _delegate;
+@implementation GCDWebServer {
   dispatch_queue_t _syncQueue;
   dispatch_semaphore_t _sourceSemaphore;
   NSMutableArray* _handlers;
@@ -150,12 +141,9 @@ static void _ExecuteMainThreadRunLoopSources() {
   CFRunLoopTimerRef _disconnectTimer;  // Accessed on main thread only
   
   NSDictionary* _options;
-  NSString* _serverName;
-  NSString* _authenticationRealm;
   NSMutableDictionary* _authenticationBasicAccounts;
   NSMutableDictionary* _authenticationDigestAccounts;
   Class _connectionClass;
-  BOOL _mapHEADToGET;
   CFTimeInterval _disconnectDelay;
   NSUInteger _port;
   dispatch_source_t _source;

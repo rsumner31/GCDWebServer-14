@@ -28,6 +28,8 @@
 #import "GCDWebServerDataResponse.h"
 #import "GCDWebServerHTTPStatusCodes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The GCDWebServerDataResponse subclass of GCDWebServerDataResponse generates
  *  an HTML body from an HTTP status code and an error message.
@@ -79,3 +81,5 @@
 - (instancetype)initWithServerError:(GCDWebServerServerErrorHTTPStatusCode)errorCode underlyingError:(NSError*)underlyingError message:(NSString*)format, ... NS_FORMAT_FUNCTION(3,4);
 
 @end
+
+NS_ASSUME_NONNULL_END
