@@ -61,6 +61,16 @@ NS_ASSUME_NONNULL_BEGIN
 #import __GCDWEBSERVER_LOGGING_HEADER__
 
 /**
+ *  Check if a custom logging facility should be used instead.
+ */
+
+#if defined(__GCDWEBSERVER_LOGGING_HEADER__)
+
+#define __GCDWEBSERVER_LOGGING_FACILITY_CUSTOM__
+
+#import __GCDWEBSERVER_LOGGING_HEADER__
+
+/**
  *  Automatically detect if XLFacility is available and if so use it as a
  *  logging facility.
  */
